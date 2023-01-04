@@ -80,41 +80,46 @@
             android:id="@+id/expandedRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="#F1F0F0"
             android:layout_below="@+id/collapsedRelativeLayout"
             android:layout_marginHorizontal="20dp"
-            android:visibility="gone">
+            android:layout_marginBottom="8dp"
+            android:background="#F1F0F0"
+            android:padding="5dp"
+            android:visibility="visible">
 
-            <LinearLayout
+
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    tools:ignore="HardcodedText" />
-
-                <ScrollView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="Description"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:id="@+id/txtExpandedDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
                         android:layout_marginTop="5dp"
+                        android:padding="3dp"
                         android:text="Long Description"
                         tools:ignore="HardcodedText" />
 
 
-                </ScrollView>
+                </LinearLayout>
 
-            </LinearLayout>
-
+            </ScrollView>
 
         </RelativeLayout>
 

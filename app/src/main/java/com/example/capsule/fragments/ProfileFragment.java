@@ -35,8 +35,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -133,7 +131,7 @@ public class ProfileFragment extends Fragment {
             txtEmail.setText(info.getEmail());
 
             if (firebaseUser.getPhotoUrl() != null)
-                Glide.with(getActivity())
+                Glide.with(requireActivity())
                         .load(firebaseUser.getPhotoUrl())
                         .into(imageProfile);
         }
@@ -152,12 +150,12 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CHOOSE_IMAGE && data != null ) {
+        if (requestCode == CHOOSE_IMAGE && data != null) {
             uriProfileImage = data.getData();
             try {
                 // Setting image on image view using Bitmap
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uriProfileImage);
-                imageProfile.setImageBitmap(bitmap);
+                //Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uriProfileImage);
+               // imageProfile.setImageBitmap(bitmap);
                 imageProfile.setImageURI(uriProfileImage);
 
                 uploadImage();
@@ -168,70 +166,61 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-        private void uploadImage () {
+    private void uploadImage() {
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.CANADA);
-            Date now = new Date();
-            String fileName = simpleDateFormat.format(now);
-
-
-            storageReference = FirebaseStorage.getInstance().getReference("profileImage/" + fileName);
-
-            storageReference.putFile(uriProfileImage)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.CANADA);
+        Date now = new Date();
+        String fileName = simpleDateFormat.format(now);
 
 
+        storageReference = FirebaseStorage.getInstance().getReference("profileImage/" + fileName);
 
-                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    downloadProfileImageUrl = uri.toString();
-                                    System.out.println( "URI PATH : "+ uri.toString());
-
-
+        storageReference.putFile(uriProfileImage)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
 
-                                    UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-                                            .setPhotoUri(uri)
-                                            .build();
-                                    System.out.println("Image URI before upload : " + uriProfileImage);
-                                    System.out.println("Download URL value : " + downloadProfileImageUrl);
-                                    firebaseUser.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
-
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful())
-                                                Toast.makeText(getActivity(), "Profile Image Updated", Toast.LENGTH_SHORT).show();
-
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                        }
-                                    });
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                downloadProfileImageUrl = uri.toString();
+                                System.out.println("URI PATH : " + uri.toString());
 
 
+                                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                                        .setPhotoUri(uri)
+                                        .build();
+                                System.out.println("Image URI before upload : " + uriProfileImage);
+                                System.out.println("Download URL value : " + downloadProfileImageUrl);
+                                firebaseUser.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful())
+                                            Toast.makeText(getActivity(), "Profile Image Updated", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                });
 
 
-                                }
-                            });
+                            }
+                        });
 
 
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
-
-
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                            imageProfile.setImageResource(R.mipmap.profile_icon);
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-        }
+                        imageProfile.setImageResource(R.mipmap.profile_icon);
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
 }

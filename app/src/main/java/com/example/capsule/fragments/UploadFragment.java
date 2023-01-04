@@ -29,13 +29,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class UploadFragment extends Fragment {
@@ -45,7 +52,9 @@ public class UploadFragment extends Fragment {
     private EditText edtProductName, edtShortDescription, edtLongDescription, edtPrice;
     private ImageView productImage;
     private Product product;
+    private StorageReference storageReference;
     private Uri productImageUri;
+    private String downloadProfileImageUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +67,7 @@ public class UploadFragment extends Fragment {
 
 
         btnUpload.setOnClickListener(v -> uploadProduct());
-        productImage.setOnClickListener(v -> setImage());
+        productImage.setOnClickListener(v -> selectImage());
 
 
 
@@ -66,7 +75,7 @@ public class UploadFragment extends Fragment {
         return view;
     }
 
-    private void setImage() {
+    private void selectImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -86,12 +95,12 @@ public class UploadFragment extends Fragment {
             return;
         }
 
-        Product product = new Product();
+        product = new Product();
         product.setProductName(productName);
         product.setProductShortDescription(shortDescription);
         product.setProductLongDescription(longDescription);
         product.setProductPrice(price);
-        product.setProductImageUri(productImageUri);
+        product.setImageUrl(downloadProfileImageUrl);
         uploadToDatabase();
 
     }
@@ -102,50 +111,28 @@ public class UploadFragment extends Fragment {
 
         CollectionReference prodRef = database.collection("products");
 
-        Product product = new Product();
-        product.setProductName(edtProductName.getText().toString());
-        product.setProductShortDescription(edtShortDescription.getText().toString());
-        product.setProductPrice(edtPrice.getText().toString());
-        product.setProductLongDescription(edtLongDescription.getText().toString());
-
         //write
         Map<String, Object> data1 = new HashMap<>();
         data1.put("productName", product.getProductName());
         data1.put("shortDescription", product.getProductShortDescription());
         data1.put("longDescription", product.getProductLongDescription());
         data1.put("productPrice", product.getProductPrice());
-        data1.put("productImageUri", "");
-        //System.out.println("Product id : "+product.getProductID());
+        data1.put("productImageUri", product.getImageUrl());
+
         prodRef.document().set(data1).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
+
                 Toast.makeText(getActivity(), "Data uploaded", Toast.LENGTH_SHORT).show();
                 clearInput();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-        database.collection("products")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.get("productName"));
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-
-
 
 
     }
@@ -193,13 +180,51 @@ public class UploadFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CHOOSE_IMAGE && data != null && data.getData() != null){
+        if (requestCode == CHOOSE_IMAGE && data != null){
             productImageUri = data.getData();
 
             productImage.setBackgroundColor(Color.WHITE);
             productImage.setImageURI(productImageUri);
+            uploadImage();
         }
 
+    }
+
+    private void uploadImage() {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.CANADA);
+        Date now = new Date();
+        String fileName = simpleDateFormat.format(now);
+
+
+        storageReference = FirebaseStorage.getInstance().getReference("productImage/" + fileName);
+
+        storageReference.putFile(productImageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                downloadProfileImageUrl = uri.toString();
+                                System.out.println("URI PATH : " + uri);
+
+
+                            }
+                        });
+
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        productImage.setImageResource(R.mipmap.product_upload_icon);
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void initView(View view) {
