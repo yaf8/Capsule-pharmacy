@@ -1,8 +1,10 @@
 package com.example.capsule.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -78,7 +82,7 @@ public class ProfileFragment extends Fragment {
         }
 
         imageProfile.setOnClickListener(v -> {
-            UpdateProfileImage();
+            selectImage();
         });
 
         loadUserInfo();
@@ -135,7 +139,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    private void UpdateProfileImage() {
+    private void selectImage() {
 
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -148,61 +152,86 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CHOOSE_IMAGE && data != null && data.getData() != null) {
+        if (requestCode == CHOOSE_IMAGE && data != null ) {
             uriProfileImage = data.getData();
-            imageProfile.setImageURI(uriProfileImage);
-            uploadImage();
+            try {
+                // Setting image on image view using Bitmap
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uriProfileImage);
+                imageProfile.setImageBitmap(bitmap);
+                imageProfile.setImageURI(uriProfileImage);
 
+                uploadImage();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
     }
 
-    private void uploadImage() {
+        private void uploadImage () {
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.CANADA);
-        Date now = new Date();
-        String fileName = simpleDateFormat.format(now);
-
-
-        storageReference = FirebaseStorage.getInstance().getReference("profileImage/" + fileName);
-
-        storageReference.putFile(uriProfileImage)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        downloadProfileImageUrl = storageReference.getDownloadUrl().toString();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.CANADA);
+            Date now = new Date();
+            String fileName = simpleDateFormat.format(now);
 
 
-                        UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-                                .setPhotoUri(Uri.parse(downloadProfileImageUrl))
-                                .build();
-                        System.out.println("Image URI before upload : "+uriProfileImage);
-                        System.out.println("Download URL value : " + downloadProfileImageUrl);
-                        firebaseUser.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+            storageReference = FirebaseStorage.getInstance().getReference("profileImage/" + fileName);
 
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful())
-                                    Toast.makeText(getActivity(), "Profile Image Updated", Toast.LENGTH_SHORT).show();
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
+            storageReference.putFile(uriProfileImage)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
 
-                        imageProfile.setImageResource(R.mipmap.profile_icon);
-                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
+                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    downloadProfileImageUrl = uri.toString();
+                                    System.out.println( "URI PATH : "+ uri.toString());
+
+
+
+
+                                    UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                                            .setPhotoUri(uri)
+                                            .build();
+                                    System.out.println("Image URI before upload : " + uriProfileImage);
+                                    System.out.println("Download URL value : " + downloadProfileImageUrl);
+                                    firebaseUser.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful())
+                                                Toast.makeText(getActivity(), "Profile Image Updated", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+
+
+
+
+                                }
+                            });
+
+
+
+
+
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            imageProfile.setImageResource(R.mipmap.profile_icon);
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
 }

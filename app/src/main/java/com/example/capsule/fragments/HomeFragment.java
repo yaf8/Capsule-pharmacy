@@ -2,24 +2,20 @@ package com.example.capsule.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import com.example.capsule.Product;
-import com.example.capsule.ProductActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.capsule.ProductAdapter;
 import com.example.capsule.TempActivity;
 import com.example.capsule.Utils;
 import com.example.capsulepharmacy.R;
-
-import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
@@ -28,6 +24,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recycleVerticalItems;
     private ProductAdapter adapter;
     private ImageButton imgBtnSearch;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -41,15 +38,16 @@ public class HomeFragment extends Fragment {
         adapter.setProduct(Utils.getInstance().getAllProducts());
 
         recycleVerticalItems.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        }, 2000);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recycleVerticalItems.setLayoutManager(linearLayoutManager);
-
-
-
-
-
 
 
         imgBtnSearch.setOnClickListener(v -> {
