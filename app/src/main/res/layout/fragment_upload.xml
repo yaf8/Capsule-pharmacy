@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.capsule.fragments.UploadFragment">
+
+    <ImageView
+        android:id="@+id/CapsuleLogo"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="Capsule Icon"
+        android:src="@mipmap/capsule_logo"
+        tools:ignore="HardcodedText" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnUpload"
+        android:layout_below="@+id/CapsuleLogo"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/relativeProductDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp">
+
+                <ImageView
+                    android:id="@+id/productImage"
+                    android:layout_width="155dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/only_stroke"
+                    android:contentDescription="Product Image"
+                    android:padding="5dp"
+                    android:src="@mipmap/product_upload_icon"
+                    tools:ignore="HardcodedText" />
+
+                <EditText
+                    android:id="@+id/edtProductName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_toEndOf="@+id/productImage"
+                    android:background="@drawable/edit_upload_shape"
+                    android:hint="Product Name"
+                    android:paddingVertical="8dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textColorHint="#857E7E"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:ignore="Autofill,HardcodedText,TextFields" />
+
+                <EditText
+                    android:id="@+id/edtShortDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/edtProductName"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@+id/productImage"
+                    android:background="@drawable/edit_upload_shape"
+                    android:hint="Short Description"
+                    android:paddingVertical="8dp"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textColorHint="#857E7E"
+                    android:textSize="13sp"
+                    android:textStyle="italic"
+                    tools:ignore="Autofill,HardcodedText,TextFields" />
+
+                <EditText
+                    android:id="@+id/edtPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_upload_shape"
+                    android:hint="Price"
+                    android:inputType="numberDecimal"
+                    android:maxWidth="120dp"
+                    android:paddingVertical="8dp"
+                    android:textAlignment="textEnd"
+                    android:textColor="#209F03"
+                    android:textColorHint="#17BA05"
+                    android:textSize="15sp"
+                    android:textStyle="italic"
+                    tools:ignore="Autofill,HardcodedText,TextFields" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/txtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="Description"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtDescription"
+                    android:layout_marginTop="15dp"
+                    tools:ignore="NestedScrolling">
+
+                    <EditText
+                        android:id="@+id/edtLongDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_upload_shape"
+                        android:hint="Long Description"
+                        android:maxLines="20"
+                        android:paddingHorizontal="15dp"
+                        android:paddingVertical="10dp"
+                        tools:ignore="Autofill,HardcodedText,TextFields" />
+
+                </ScrollView>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#0EB34A"
+        android:drawableEnd="@drawable/ic_baseline_upload_24"
+        android:fontFamily="sans-serif-medium"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="10dp"
+        android:text="Upload"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        app:elevation="10dp"
+        app:strokeColor="@color/white"
+        tools:ignore="HardcodedText" />
+
+</RelativeLayout>
