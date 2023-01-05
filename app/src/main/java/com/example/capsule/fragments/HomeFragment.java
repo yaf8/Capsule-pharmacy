@@ -4,7 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
@@ -24,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.capsule.ProductAdapter;
-import com.example.capsule.TempActivity;
 import com.example.capsule.Utils;
 import com.example.capsulepharmacy.R;
 import com.google.firebase.database.DataSnapshot;
@@ -75,9 +73,6 @@ public class HomeFragment extends Fragment {
         });
 
         capsuleLogo.setOnClickListener(v -> adapter.notifyDataSetChanged());
-
-
-
 
 
         newNotification();

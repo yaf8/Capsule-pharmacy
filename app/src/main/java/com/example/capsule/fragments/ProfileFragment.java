@@ -1,10 +1,8 @@
 package com.example.capsule.fragments;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.capsule.HelpAndSupportActivity;
 import com.example.capsule.LoginActivity;
+import com.example.capsule.ManageAccountActivity;
 import com.example.capsule.PrivacyPolicyActivity;
 import com.example.capsule.TermAndConditionActivity;
 import com.example.capsulepharmacy.R;
@@ -43,7 +42,7 @@ import java.util.Locale;
 public class ProfileFragment extends Fragment {
 
     private static final int CHOOSE_IMAGE = 101;
-    TextView txtEmail, txtBtnPrivacy, txtBtnHelp, txtBtnTerm, txtBtnLogout;
+    TextView txtEmail, txtBtnPrivacy, txtBtnHelp, txtBtnTerm, txtBtnManage, txtBtnLogout;
     private ShapeableImageView imageProfile;
     private TextView txtFullName;
     FirebaseAuth firebaseAuth;
@@ -58,13 +57,7 @@ public class ProfileFragment extends Fragment {
 
         //txtEmail.setText("firebaseUser.getEmail()");
 
-        txtFullName = view.findViewById(R.id.txtFullName);
-        txtEmail = view.findViewById(R.id.txtEmailAddress);
-        txtBtnPrivacy = view.findViewById(R.id.txtBtnPrivacy);
-        txtBtnHelp = view.findViewById(R.id.txtBtnHelp);
-        txtBtnTerm = view.findViewById(R.id.txtBtnTerm);
-        txtBtnLogout = view.findViewById(R.id.txtBtnLogout);
-        imageProfile = view.findViewById(R.id.imageProfile);
+        initView(view);
 
 
         loadEmailFromFirestore();
@@ -114,10 +107,25 @@ public class ProfileFragment extends Fragment {
         txtBtnTerm.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), TermAndConditionActivity.class));
         });
+        txtBtnManage.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), ManageAccountActivity.class));
+        });
 
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void initView(View view) {
+
+        txtFullName = view.findViewById(R.id.txtFullName);
+        txtEmail = view.findViewById(R.id.txtEmailAddress);
+        txtBtnPrivacy = view.findViewById(R.id.txtBtnPrivacy);
+        txtBtnHelp = view.findViewById(R.id.txtBtnHelp);
+        txtBtnTerm = view.findViewById(R.id.txtBtnTerm);
+        txtBtnLogout = view.findViewById(R.id.txtBtnLogout);
+        imageProfile = view.findViewById(R.id.imageProfile);
+        txtBtnManage = view.findViewById(R.id.txtBtnManage);
     }
 
     private void loadEmailFromFirestore() {

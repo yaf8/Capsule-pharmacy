@@ -145,6 +145,25 @@
                     tools:ignore="HardcodedText" />
 
                 <TextView
+                    android:id="@+id/txtBtnManage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/profile_text_background"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="15dp"
+                    android:text="Manage Accounts"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_next_24"
+                    app:drawableStartCompat="@drawable/ic_baseline_manage_accounts_24"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
                     android:id="@+id/txtBtnLogout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

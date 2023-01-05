@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class TempActivity extends AppCompatActivity {
+public class ManageAccountActivity extends AppCompatActivity {
 
     FirebaseFirestore firestore;
     FirebaseAuth auth;
@@ -22,7 +22,7 @@ public class TempActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_temp);
+        setContentView(R.layout.activity_manage_account);
 
         FirstName = findViewById(R.id.FirstName);
         LastName = findViewById(R.id.LastName);

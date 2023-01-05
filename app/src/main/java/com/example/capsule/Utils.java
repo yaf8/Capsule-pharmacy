@@ -44,7 +44,6 @@ public class Utils {
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //Log.d(TAG, document.getId() + " => " + document.get("productName"));
-                                System.out.println("//////////////////////////////////////////"+document.get("productImageUri").toString());
                                 allProducts.add(new Product(
                                         document.getId(),
                                         document.get("productName").toString(),

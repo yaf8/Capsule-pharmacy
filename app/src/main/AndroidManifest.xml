@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Capsule"
         tools:targetApi="31">
         <activity
-            android:name="com.example.capsule.TempActivity"
+            android:name="com.example.capsule.ManageAccountActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
