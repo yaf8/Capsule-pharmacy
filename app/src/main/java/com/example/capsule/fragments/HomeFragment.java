@@ -1,13 +1,23 @@
 package com.example.capsule.fragments;
 
+import static android.content.ContentValues.TAG;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +26,11 @@ import com.example.capsule.ProductAdapter;
 import com.example.capsule.TempActivity;
 import com.example.capsule.Utils;
 import com.example.capsulepharmacy.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class HomeFragment extends Fragment {
 
@@ -51,11 +66,77 @@ public class HomeFragment extends Fragment {
 
 
         imgBtnSearch.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), TempActivity.class));
+            //startActivity(new Intent(getActivity(), TempActivity.class));
+
+            newNotification();
         });
+        newNotification();
 
 
         return view;
     }
+
+    private void newNotification() {
+
+        //Write
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("order/messages/med");
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+                String value = dataSnapshot.getValue(String.class);
+                Log.d(TAG, "Value is: " + value);
+
+
+                createNotificationChannel();
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "CHANNEL_ID")
+                        .setSmallIcon(R.drawable.ic_baseline_keyboard_arrow_down_24)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                        .setContentTitle("Order Notification")
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(value))
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+
+                notificationManager.notify(0, builder.build());
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+
+    private void createNotificationChannel() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            CharSequence name = "New Order";
+            String description = "Order Notification!";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel notificationChannel = new NotificationChannel("CHANNEL_ID", name, importance);
+            notificationChannel.setDescription(description);
+            notificationChannel.setLightColor(Color.RED);
+
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
+
+        }
+    }
+
 
 }

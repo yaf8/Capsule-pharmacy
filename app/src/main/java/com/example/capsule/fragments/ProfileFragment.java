@@ -153,9 +153,9 @@ public class ProfileFragment extends Fragment {
         if (requestCode == CHOOSE_IMAGE && data != null) {
             uriProfileImage = data.getData();
             try {
-                // Setting image on image view using Bitmap
-                //Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uriProfileImage);
-               // imageProfile.setImageBitmap(bitmap);
+                 // Setting image on image view using Bitmap
+                 // Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uriProfileImage);
+                 // imageProfile.setImageBitmap(bitmap);
                 imageProfile.setImageURI(uriProfileImage);
 
                 uploadImage();
