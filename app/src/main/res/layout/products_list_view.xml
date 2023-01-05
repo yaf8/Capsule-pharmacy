@@ -62,6 +62,30 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/txtPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imgProduct"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="15dp"
+                android:layout_toEndOf="@+id/imgProduct"
+                android:fontFamily="@font/archivo_black"
+                android:text="Price"
+                android:textColor="#51C102"
+                android:textSize="17sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="birr"
+                android:textColor="#393838"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/txtPrice"
+                android:layout_alignBottom="@+id/txtPrice"
+                tools:ignore="HardcodedText" />
+
             <ImageView
                 android:id="@+id/expendArrow"
                 style="?android:attr/buttonBarButtonStyle"
@@ -86,7 +110,7 @@
             android:layout_marginBottom="8dp"
             android:background="#F1F0F0"
             android:padding="5dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
 
             <ScrollView
