@@ -16,26 +16,48 @@
         android:contentDescription="LOGO"
         tools:ignore="HardcodedText" />
 
-    <TextView
-        android:id="@+id/txtCapsule"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relativeTxtCapsulePharmacy"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="capsule"
-        android:textAllCaps="true"
         android:layout_below="@+id/logo"
-        android:layout_marginTop="30dp"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        tools:ignore="HardcodedText" />
+        android:gravity="center"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/txtCapsule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="capsule"
+            android:textAllCaps="true"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/txtPharmacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/txtCapsule"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@+id/txtCapsule"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="Pharmacy"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="italic"
+            tools:ignore="HardcodedText" />
+
+    </RelativeLayout>
 
     <ProgressBar
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/txtCapsule"
+        android:layout_below="@+id/relativeTxtCapsulePharmacy"
         android:layout_marginTop="40dp"
-        android:indeterminateTint="#FF5722"/>
+        android:indeterminateTint="#2788FF"/>
 
 </RelativeLayout>
