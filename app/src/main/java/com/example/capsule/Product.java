@@ -32,7 +32,7 @@ public class Product {
         this.productShortDescription = productShortDescription;
         this.productLongDescription = productLongDescription;
         this.productPrice = productPrice;
-        this.productUri = productUri;
+        this.imageUrl = imageUrl;
         isExpanded = false;
     }
 

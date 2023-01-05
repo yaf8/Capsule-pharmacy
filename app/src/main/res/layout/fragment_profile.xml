@@ -41,6 +41,7 @@
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     app:strokeColor="@color/white"
+                    android:background="@color/white"
                     app:strokeWidth="1dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
@@ -55,9 +56,11 @@
                     android:layout_below="@+id/imageProfile"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
+                    android:fontFamily="@font/black_han_sans"
                     android:text="Full Name"
-                    android:textColor="@color/black"
+                    android:textColor="#011C80"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
                 <TextView
@@ -67,9 +70,11 @@
                     android:layout_below="@+id/txtFullName"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
+                    android:textStyle="bold|italic"
                     android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/aclonica"
                     android:text="Email Address"
-                    android:textColor="@color/black"
+                    android:textColor="#4E0080"
                     android:textSize="20sp"
                     tools:ignore="HardcodedText" />
 

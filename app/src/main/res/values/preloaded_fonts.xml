@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/aclonica</item>
+        <item>@font/alatsi</item>
         <item>@font/alfa_slab_one</item>
         <item>@font/anton</item>
+        <item>@font/asset</item>
+        <item>@font/berkshire_swash</item>
+        <item>@font/beth_ellen</item>
         <item>@font/black_han_sans</item>
     </array>
 </resources>

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -39,6 +40,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recycleVerticalItems;
     private ProductAdapter adapter;
     private ImageButton imgBtnSearch;
+    private ImageView capsuleLogo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class HomeFragment extends Fragment {
 
         recycleVerticalItems = view.findViewById(R.id.recycleVerticalItems);
         imgBtnSearch = view.findViewById(R.id.imgBtnSearch);
+        capsuleLogo = view.findViewById(R.id.capsuleLogo);
 
 
         adapter = new ProductAdapter(getActivity());
@@ -70,6 +73,13 @@ public class HomeFragment extends Fragment {
 
             newNotification();
         });
+
+        capsuleLogo.setOnClickListener(v -> adapter.notifyDataSetChanged());
+
+
+
+
+
         newNotification();
 
 
@@ -90,23 +100,20 @@ public class HomeFragment extends Fragment {
                 // whenever data at this location is updated.
 
                 String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
-
 
                 createNotificationChannel();
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "CHANNEL_ID")
-                        .setSmallIcon(R.drawable.ic_baseline_keyboard_arrow_down_24)
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                        .setContentTitle("Order Notification")
+                        .setSmallIcon(R.drawable.ic_baseline_circle_notifications_24)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.capsule_logo))
+                        .setContentTitle("New order")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(value))
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        .setPriority(NotificationCompat.PRIORITY_MAX);
 
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
 
                 notificationManager.notify(0, builder.build());
-
 
             }
 

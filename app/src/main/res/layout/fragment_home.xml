@@ -5,47 +5,56 @@
     android:layout_height="match_parent"
     tools:context="com.example.capsule.fragments.HomeFragment">
 
+    <ImageView
+        android:id="@+id/capsuleLogo"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/capsule_logo" />
+
     <RelativeLayout
         android:id="@+id/relativeSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
         android:layout_centerHorizontal="true"
-        android:gravity="center">
+        android:layout_marginHorizontal="30dp"
+        android:gravity="center"
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/edtSearch"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            android:textColor="@color/black"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="60dp"
             android:background="@drawable/custom_edittext"
             android:hint="Search                          "
             android:inputType="text"
+            android:textColor="@color/black"
             android:textColorHint="#3C4040"
             android:textSize="16sp"
             tools:ignore="Autofill,HardcodedText,TextFields" />
 
         <ImageButton
             android:id="@+id/imgBtnSearch"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_search_24"
             android:layout_alignTop="@+id/edtSearch"
             android:layout_alignBottom="@+id/edtSearch"
             android:layout_alignParentEnd="true"
-            style="?android:attr/buttonBarButtonStyle"
             android:contentDescription="Search Icon"
+            android:src="@drawable/ic_baseline_search_24"
             tools:ignore="HardcodedText" />
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/contentScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentScroll"
-        android:layout_below="@+id/relativeSearch">
+        android:layout_below="@+id/capsuleLogo">
 
         <LinearLayout
             android:id="@+id/linearScrollVertical"
@@ -55,12 +64,12 @@
             android:orientation="vertical">
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:id="@+id/recycleVerticalItems"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleVerticalItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp" />
 
         </LinearLayout>
     </ScrollView>
