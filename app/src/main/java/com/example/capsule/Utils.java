@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.capsule.fragments.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -50,7 +51,9 @@ public class Utils {
                                         document.get("shortDescription").toString(),
                                         document.get("longDescription").toString(),
                                         document.get("productPrice").toString(),
-                                        document.get("productImageUri").toString()));
+                                        document.get("productImageUri").toString())
+                                );
+                                HomeFragment.adapter.notifyDataSetChanged();
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

@@ -1,5 +1,6 @@
 package com.example.capsule.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,7 +43,8 @@ import java.util.Locale;
 public class ProfileFragment extends Fragment {
 
     private static final int CHOOSE_IMAGE = 101;
-    TextView txtEmail, txtBtnPrivacy, txtBtnHelp, txtBtnTerm, txtBtnManage, txtBtnLogout;
+    TextView txtEmail, txtBtnPrivacy, txtBtnHelp, txtBtnTerm,  txtBtnLogout;
+    public static TextView txtBtnManage;
     private ShapeableImageView imageProfile;
     private TextView txtFullName;
     FirebaseAuth firebaseAuth;

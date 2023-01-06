@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -19,10 +20,16 @@ import com.example.capsulepharmacy.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
@@ -32,6 +39,9 @@ public class LoginActivity extends AppCompatActivity {
     Button btnSignIn;
     TextView txtSignUp;
     ProgressBar progressBar;
+    CheckBox checkAdmin;
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn = findViewById(R.id.btnSignIn);
         txtSignUp = findViewById(R.id.txtSignUp);
         progressBar = findViewById(R.id.progressBar);
+        checkAdmin = findViewById(R.id.checkAdmin);
+
 
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -70,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
     private void loginAccountInFirebase(String email, String password) {
         changeInProgress(true);
 
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
 
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -81,6 +93,16 @@ public class LoginActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     //login successful
                     if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                        if (checkAdmin.isChecked()){
+                            boolean isAdmin = AdminCheck();
+                            if (isAdmin) {
+                                Toast.makeText(LoginActivity.this, "Logged in as ADMIN", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(LoginActivity.this, "Logged is as USER", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
                         // go to main activity
                         Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -98,6 +120,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean AdminCheck() {
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        DocumentReference docRef = firebaseFirestore.document("Accounts");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
+
+
+        return true;
     }
 
     private void changeInProgress(boolean inProgress){

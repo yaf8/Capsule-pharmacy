@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
     public static final String PRODUCT_ID_KEY = "productID";
 
     private RecyclerView recycleVerticalItems;
-    private ProductAdapter adapter;
+    public static ProductAdapter adapter;
     private ImageButton imgBtnSearch;
     private ImageView capsuleLogo;
 
