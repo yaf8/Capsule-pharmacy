@@ -111,6 +111,7 @@
                 android:textColor="@color/black"
                 android:textStyle="italic"
                 android:textSize="15sp"
+                android:visibility="gone"
                 android:text="Login as Admin"
                 tools:ignore="HardcodedText" />
 
@@ -129,6 +130,7 @@
                     android:backgroundTint="#135667"
                     android:paddingHorizontal="60dp"
                     android:paddingVertical="10dp"
+                    android:layout_marginTop="20dp"
                     android:text="Sign in"
                     android:textSize="20sp"
                     tools:ignore="HardcodedText"/>
