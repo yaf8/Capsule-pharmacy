@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current data: " + snapshot.getData());
+                    Log.d("Data after delete : ", "Current data: " + snapshot.getData());
 
                     if (Boolean.TRUE.equals(snapshot.getBoolean("isDeleted"))) {
                         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
