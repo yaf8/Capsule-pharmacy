@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn = findViewById(R.id.btnSignIn);
         txtSignUp = findViewById(R.id.txtSignUp);
         progressBar = findViewById(R.id.progressBar);
-        checkAdmin = findViewById(R.id.checkAdmin);
+        checkAdmin = findViewById(R.id.CheckBoxAdmin);
 
 
         progressBar.setVisibility(View.INVISIBLE);

@@ -52,7 +52,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 .load(products.get(position).getImageUrl())
                 .into(holder.imgProduct);
 
-        System.out.println("getImageUrl : \\\\\\ : " + products.get(position).getImageUrl());
+        //System.out.println("getImageUrl : \\\\\\ : " + products.get(position).getImageUrl());
 
 
         holder.parentLayout.setOnClickListener(v -> {

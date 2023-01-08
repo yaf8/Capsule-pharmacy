@@ -104,7 +104,7 @@
                 tools:ignore="Autofill,HardcodedText,TextFields" />
 
             <CheckBox
-                android:id="@+id/checkAdmin"
+                android:id="@+id/CheckBoxAdmin"
                 android:layout_width="match_parent"
                 android:layout_marginHorizontal="70dp"
                 android:layout_height="wrap_content"

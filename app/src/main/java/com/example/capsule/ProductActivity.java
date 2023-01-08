@@ -35,7 +35,7 @@ public class ProductActivity extends AppCompatActivity {
                 Product incomingProduct = Utils.getInstance().getProductById(productID);
 
                 if (incomingProduct != null) {
-                    setData(incomingProduct);
+                    setData(incomingProduct);;
                 }
             }
         }
