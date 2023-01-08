@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(task.isSuccessful()){
                     //login successful
-                    if (firebaseAuth.getCurrentUser().isEmailVerified()){
+                    //if (firebaseAuth.getCurrentUser().isEmailVerified()){
                         if (checkAdmin.isChecked()){
                             boolean isAdmin = AdminCheck();
                             if (isAdmin) {
@@ -111,11 +111,11 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Email not verify, Please verify your email.", Toast.LENGTH_LONG).show();
                     }
 
-                } else {
+                //} else {
                     //login failure
-                    Toast.makeText(LoginActivity.this, Objects.requireNonNull(task.getException()).getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                 //   Toast.makeText(LoginActivity.this, Objects.requireNonNull(task.getException()).getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
-                }
+                //}
 
             }
         });

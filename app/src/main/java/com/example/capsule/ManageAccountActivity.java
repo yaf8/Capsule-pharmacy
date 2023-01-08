@@ -1,45 +1,61 @@
 package com.example.capsule;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static android.content.ContentValues.TAG;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
+import android.os.Handler;
+import android.util.Log;
+import android.widget.RelativeLayout;
 
 import com.example.capsulepharmacy.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class ManageAccountActivity extends AppCompatActivity {
 
-    FirebaseFirestore firestore;
-    FirebaseAuth auth;
+    public static UserAdapter adapter;
+    private RecyclerView recyclerView;
+    private RelativeLayout relativeParent;
+    //private ArrayList<Users> userList;
+    private Users users;
 
-    Button btnRefresh;
-    TextView FirstName, LastName, Email, Phone;
-    public static String cUser;
+
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_account);
+        relativeParent = findViewById(R.id.relativeParent);
+        recyclerView = findViewById(R.id.recycleViewer);
 
-        FirstName = findViewById(R.id.FirstName);
-        LastName = findViewById(R.id.LastName);
-        Email = findViewById(R.id.Email);
-        Phone = findViewById(R.id.Phone);
-        btnRefresh = findViewById(R.id.btnRefresh);
+        //userList = new ArrayList<>();
 
-        firestore = FirebaseFirestore.getInstance();
-        auth = FirebaseAuth.getInstance();
+        adapter = new UserAdapter(this);
 
-        FirebaseUser user = auth.getCurrentUser();
+        adapter.setUser(Utils.getInstance().getAllUsers());
 
-        btnRefresh.setOnClickListener(v -> {
-            assert user != null;
-            Email.setText(user.getDisplayName());
-        });
+        //System.out.println("AllUsersSize : " + Utils.getAllUsers().size());
 
+        relativeParent.setOnClickListener(v -> adapter.notifyDataSetChanged());
+
+        recyclerView.setAdapter(adapter);
+
+        new Handler().postDelayed(() -> adapter.notifyDataSetChanged(), 3000);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 }

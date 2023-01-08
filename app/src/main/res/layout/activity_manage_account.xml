@@ -3,65 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
+    android:id="@+id/relativeParent"
     tools:context="com.example.capsule.ManageAccountActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="First Name"
-            android:textColor="@color/black"
-            android:layout_marginTop="20dp"
-            android:textSize="20sp"
-            android:id="@+id/FirstName"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="Last Name"
-            android:layout_marginTop="20dp"
-            android:textSize="20sp"
-            android:id="@+id/LastName"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:id="@+id/Email"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Phone"
-            android:layout_marginTop="20dp"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:id="@+id/Phone"/>
-
-    </LinearLayout>
-
-    <Button
+    <TextView
+        android:id="@+id/txtUserList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Refresh"
-        android:id="@+id/btnRefresh"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/purple_700"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/black"
-        android:textColor="@color/white"/>
+        android:text="Users List"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeRecycle"
+        android:layout_width="match_parent"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/txtUserList"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="5dp"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recycleViewer"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

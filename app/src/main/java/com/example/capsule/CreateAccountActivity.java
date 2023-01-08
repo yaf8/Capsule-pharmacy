@@ -1,5 +1,7 @@
 package com.example.capsule;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +42,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     Button btnCreateAccount;
     TextView txtSignIn;
     ProgressBar progressBar;
+    FirebaseFirestore db, db2;
     public static String em;
 
     FirebaseFirestore firebaseFirestore;
@@ -87,6 +91,49 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     }
 
+    private void saveUserData(){
+
+
+        db = FirebaseFirestore.getInstance();
+        db2 = FirebaseFirestore.getInstance();
+        UserInfo userInfo = FirebaseAuth.getInstance().getCurrentUser();
+
+        //------------------------------------Save_Data----------------------------
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("email", edtEmail.getText().toString());
+        user.put("isAdmin", false);
+        user.put("isDeleted", false);
+        user.put("password", edtPassword.getText().toString());
+        user.put("PhoneNumber", edtPhoneNumber.getText().toString());
+        user.put("firstName", edtPharmacyName.getText().toString());
+        user.put("lastName", "pharmacy");
+        user.put("userType", "Pharmacy");
+        user.put("profileURL", "https://icon-library.com/images/user-icon-jpg/user-icon-jpg-8.jpg");
+
+        Map<String, Object> userEmail = new HashMap<>();
+        userEmail.put("userEmail",userInfo.getEmail());
+
+        db.collection("Accounts/").document(edtEmail.getText().toString())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(CreateAccountActivity.this, "DocumentSnapshot successfully written!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        //------------------------------------Save_Data----------------------------
+    }
+
     private void saveToFirebaseFirestore(String pharmacyName, String phoneNumber, String email) {
         Map<String, Object> user = new HashMap<>();
 
@@ -122,6 +169,8 @@ public class CreateAccountActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 changeInProgress(false);
                 if (task.isSuccessful()){
+
+                    saveUserData();
                     //uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
                     //Todo: test profile update
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -135,7 +184,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     //uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
 
                     //create account is done
-                    firebaseAuth.getCurrentUser().sendEmailVerification();
+                    //firebaseAuth.getCurrentUser().sendEmailVerification();
 
                     Toast.makeText(CreateAccountActivity.this, "Successfully created account", Toast.LENGTH_SHORT).show();
 
