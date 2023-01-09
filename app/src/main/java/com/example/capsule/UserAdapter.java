@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.capsulepharmacy.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -45,10 +47,22 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             context.startActivity(intent);
 
         });
-        Glide.with(context)
-                .asBitmap()
-                .load(user.get(position).getUrl())
-                .into(holder.profileImage);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+
+        assert user != null;
+        if(firebaseUser.getPhotoUrl() != null) {
+            Glide.with(context)
+                    .asBitmap()
+                    .load(firebaseUser.getPhotoUrl())
+                    .into(holder.profileImage);
+        } else {
+            Glide.with(context)
+                    .asBitmap()
+                    .load(user.get(position).getUrl())
+                    .into(holder.profileImage);
+        }
 
     }
 
@@ -61,7 +75,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     public int getItemCount() {
 
         if (user == null)
-        System.out.println("getItemCount() : " + "null");
+            System.out.println("getItemCount() : " + "null");
         if (user != null)
             return user.size();
         else

@@ -9,6 +9,7 @@ public class Users {
     private String Email;
     private boolean isAdmin;
     private boolean isDeleted;
+    private String userType;
 
     public Users(String email){
         this.Email = email;
@@ -22,6 +23,17 @@ public class Users {
         Email = email;
         this.isAdmin = isAdmin;
         this.isDeleted = isDeleted;
+    }
+
+    public Users(String firstName, String lastName, String phoneNumber, String url, String email, boolean isAdmin, boolean isDeleted, String userType) {
+        FirstName = firstName;
+        LastName = lastName;
+        PhoneNumber = phoneNumber;
+        Url = url;
+        Email = email;
+        this.isAdmin = isAdmin;
+        this.isDeleted = isDeleted;
+        this.userType = userType;
     }
 
     public Users() {
@@ -85,5 +97,13 @@ public class Users {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

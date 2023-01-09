@@ -82,24 +82,26 @@ public class Utils {
 
                             //     if (checkAdd[0]) {
 
-                            System.out.println("firstName : "+doc.getString("firstName"));
-                            System.out.println("lastName : "+doc.getString("lastName"));
-                            System.out.println("PhoneNumber: "+doc.getString("PhoneNumber"));
-                            System.out.println("profileURL : "+doc.getString("profileURL"));
-                            System.out.println("Email : "+doc.getString("email"));
-                            System.out.println("isAdmin : "+doc.getBoolean("isAdmin"));
-                            System.out.println("isDeleted : "+doc.getBoolean("isDeleted"));
+                            System.out.println("firstName : " + doc.getString("firstName"));
+                            System.out.println("lastName : " + doc.getString("lastName"));
+                            System.out.println("PhoneNumber: " + doc.getString("PhoneNumber"));
+                            System.out.println("profileURL : " + doc.getString("profileURL"));
+                            System.out.println("Email : " + doc.getString("email"));
+                            System.out.println("isAdmin : " + doc.getBoolean("isAdmin"));
+                            System.out.println("isDeleted : " + doc.getBoolean("isDeleted"));
+                            System.out.println("userType : " + doc.getString("userType"));
 
 
-                                                                                    allUsers.add(new Users(
-                                                                                            Objects.requireNonNull(doc.getString("firstName")),
-                                                                                            Objects.requireNonNull(doc.getString("lastName")),
-                                                                                            Objects.requireNonNull(doc.getString("PhoneNumber")),
-                                                                                            Objects.requireNonNull(doc.getString("profileURL")),
-                                                                                            Objects.requireNonNull(doc.getString("email")),
-                                                                                            Boolean.TRUE.equals(doc.getBoolean("isAdmin")),
-                                                                                            Boolean.TRUE.equals(doc.getBoolean("isDeleted"))
-                                                                                    ));
+                            allUsers.add(new Users(
+                                    Objects.requireNonNull(doc.getString("firstName")),
+                                    Objects.requireNonNull(doc.getString("lastName")),
+                                    Objects.requireNonNull(doc.getString("PhoneNumber")),
+                                    Objects.requireNonNull(doc.getString("profileURL")),
+                                    Objects.requireNonNull(doc.getString("email")),
+                                    Boolean.TRUE.equals(doc.getBoolean("isAdmin")),
+                                    Boolean.TRUE.equals(doc.getBoolean("isDeleted")),
+                                    Objects.requireNonNull(doc.getString("userType"))
+                            ));
                             //ManageAccountActivity.adapter.notifyDataSetChanged();
                             //}
                             //}

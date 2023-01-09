@@ -25,13 +25,14 @@ import com.google.firebase.firestore.auth.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserActivity extends AppCompatActivity {
 
     private MaterialButton MatBtnDelete;
-    private TextView txtFirstName, txtLastName, txtEmail, txtPhoneNumber, txtType;
+    private TextView txtFirstName, txtLastName, txtEmail, txtPhoneNumber, txtUserType;
     private CircleImageView profileImage;
     private FirebaseFirestore db, db2;
     private DocumentReference docRef, docRef2;
@@ -46,7 +47,8 @@ public class UserActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPhoneNumber = findViewById(R.id.txtPhoneNumber);
         profileImage = findViewById(R.id.profileImage);
-        txtType = findViewById(R.id.txtType);
+        txtUserType = findViewById(R.id.txtType);
+
 
 
         loadData();
@@ -89,13 +91,13 @@ public class UserActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(UserActivity.this, "User Deleted Successfully", Toast.LENGTH_SHORT).show();
                         for (int i = 0; i < Utils.getAllUsers().size(); i++){
-                            if (Utils.getAllUsers().get(i).getEmail() == users.getEmail()){
+                            if (Objects.equals(Utils.getAllUsers().get(i).getEmail(), users.getEmail())){
                                 Utils.getAllUsers().remove(i);
                             }
                         }
 
-
                         startActivity(new Intent(UserActivity.this, ManageAccountActivity.class));
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -112,10 +114,26 @@ public class UserActivity extends AppCompatActivity {
         txtLastName.setText(users.getLastName());
         txtEmail.setText(users.getEmail());
         txtPhoneNumber.setText(users.getPhoneNumber());
-        Glide.with(this)
-                .asBitmap()
-                .load(users.getUrl())
-                .into(profileImage);
+        txtUserType.setText(users.getUserType());
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+
+        assert user != null;
+        if(user.getPhotoUrl() != null) {
+            Glide.with(this)
+                    .asBitmap()
+                    .load(user.getPhotoUrl())
+                    .into(profileImage);
+        } else {
+            Glide.with(this)
+                    .asBitmap()
+                    .load(users.getUrl())
+                    .into(profileImage);
+        }
+
+
 
     }
 }

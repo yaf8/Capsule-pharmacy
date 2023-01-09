@@ -47,13 +47,15 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ProfileFragment extends Fragment {
 
     private static final int CHOOSE_IMAGE = 101;
     TextView txtEmail, txtBtnPrivacy, txtBtnHelp, txtBtnTerm,  txtBtnLogout;
     public static TextView txtBtnManage;
-    private ShapeableImageView imageProfile;
+    private CircleImageView imageProfile;
     private TextView txtFullName;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -123,6 +125,7 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(getActivity(), ManageAccountActivity.class));
         });
 
+        readUserData();
 
         // Inflate the layout for this fragment
         return view;
