@@ -116,9 +116,11 @@ public class MainActivity extends AppCompatActivity {
                     if (Boolean.TRUE.equals(snapshot.getBoolean("isDeleted"))) {
                         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
                         assert firebaseUser != null;
                         firebaseUser.delete();
                         docRef.delete();
+
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         finish();
                         firebaseAuth.signOut();
